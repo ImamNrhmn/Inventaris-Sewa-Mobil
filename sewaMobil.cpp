@@ -82,6 +82,28 @@ void tampilMobil(bool tampilSemua = true, bool status = false) {
     system("pause");
 }
 
+// Fungsi untuk menandai mobil sebagai disewa/dikembalikan
+void updateStatusMobil() {
+    headerMenu();
+    cout << "Tandai Mobil Disewa/Dikembalikan\n";
+    garis();
+    tampilMobil();
+    cout << "Masukkan ID mobil: ";
+    int id; cin >> id;
+    Mobil* temp = head;
+    while (temp && temp->id != id) temp = temp->next;
+    if (!temp) {
+        cout << "Mobil tidak ditemukan!\n";
+    } else {
+        cout << "Status saat ini: " << (temp->disewa ? "Disewa" : "Tersedia") << endl;
+        cout << "Ubah status menjadi (1: Disewa, 0: Tersedia): ";
+        int st; cin >> st;
+        temp->disewa = (st == 1);
+        cout << "Status berhasil diubah!\n";
+    }
+    system("pause");
+}
+
 // Fungsi untuk mencari mobil berdasarkan merk
 void cariMobil() {
     headerMenu();
