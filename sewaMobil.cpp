@@ -54,6 +54,34 @@ void tambahMobil() {
     system("pause");
 }
 
+// Fungsi untuk menampilkan semua mobil
+void tampilMobil(bool tampilSemua = true, bool status = false) {
+    headerMenu();
+    if (tampilSemua)
+        cout << "Daftar Semua Mobil\n";
+    else
+        cout << (status ? "Daftar Mobil Disewa\n" : "Daftar Mobil Tersedia\n");
+    garis();
+    cout << left << setw(5) << "ID" << setw(15) << "Merk" << setw(15) << "Tipe" << setw(8) << "Tahun" << setw(12) << "Status" << endl;
+    garis();
+    Mobil* temp = head;
+    bool ada = false;
+    while (temp) {
+        if (tampilSemua || temp->disewa == status) {
+            cout << left << setw(5) << temp->id
+                 << setw(15) << temp->merk
+                 << setw(15) << temp->tipe
+                 << setw(8) << temp->tahun
+                 << setw(12) << (temp->disewa ? "Disewa" : "Tersedia") << endl;
+            ada = true;
+        }
+        temp = temp->next;
+    }
+    if (!ada) cout << "Tidak ada data mobil.\n";
+    garis();
+    system("pause");
+}
+
 int main() {
     cout << "Hello, world!" << endl;
     return 0;
