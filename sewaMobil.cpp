@@ -159,6 +159,40 @@ void cariMobil() {
 }
 
 int main() {
-    cout << "Hello, world!" << endl;
+    system("cls");
+ int pilihan;
+    do {
+        headerMenu();
+        cout << "Menu:\n";
+        cout << "1. Tambah Data Mobil\n";
+        cout << "2. Pilih Mobil untuk Disewa/Dikembalikan\n";
+        cout << "3. Hapus Mobil dari Daftar\n";
+        cout << "4. Cari Mobil Berdasarkan Merk\n";
+        cout << "5. Tampilkan Semua Mobil\n";
+        cout << "6. Tampilkan Mobil Tersedia\n";
+        cout << "7. Tampilkan Mobil Disewa\n";
+        cout << "0. Keluar\n";
+        garis();
+        cout << "Pilih menu: "; getch();
+        cin >> pilihan;
+        switch (pilihan) {
+            case 1: tambahMobil(); break;
+            case 2: updateStatusMobil(); break;
+            case 3: hapusMobil(); break;
+            case 4: cariMobil(); break;
+            case 5: tampilMobil(); break;
+            case 6: tampilMobil(false, false); break;
+            case 7: tampilMobil(false, true); break;
+            case 0: cout << "Terima kasih telah menggunakan sistem ini!\n"; break;
+            default: cout << "Pilihan tidak valid!\n"; system("pause");
+        }
+    } while (pilihan != 0);
+
+    // Bersihkan memori
+    while (head) {
+        Mobil* temp = head;
+        head = head->next;
+        delete temp;
+    }
     return 0;
 }
