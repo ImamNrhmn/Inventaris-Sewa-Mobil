@@ -1,8 +1,6 @@
 #include <iostream>
-#include <conio.h>
-#include <string>
 #include <iomanip>
-#include <cctype>
+#include <string>
 using namespace std;
 
 struct Mobil {
@@ -17,20 +15,21 @@ struct Mobil {
 Mobil* head = nullptr;
 int idCounter = 1;
 
-// Fungsi untuk membuat garis menu
+// Membuat garis pemisah
 void garis(int n = 50) {
     for (int i = 0; i < n; ++i) cout << "=";
     cout << endl;
 }
 
-// Fungsi untuk menampilkan header menu
+// Header Menu
 void headerMenu() {
-    system("cls");
+    system("cls");  // Bersihkan layar (khusus Windows)
     garis();
     cout << setw(30) << "INVENTARIS SEWA MOBIL" << endl;
     garis();
 }
 
+// Tambah Data Mobil
 void tambahMobil() {
     headerMenu();
     cout << "Tambah Data Mobil\n";
@@ -54,7 +53,7 @@ void tambahMobil() {
     system("pause");
 }
 
-// Fungsi untuk menampilkan semua mobil
+// Tampil Data Mobil
 void tampilMobil(bool tampilSemua = true, bool status = false) {
     headerMenu();
     if (tampilSemua)
@@ -62,8 +61,10 @@ void tampilMobil(bool tampilSemua = true, bool status = false) {
     else
         cout << (status ? "Daftar Mobil Disewa\n" : "Daftar Mobil Tersedia\n");
     garis();
-    cout << left << setw(5) << "ID" << setw(15) << "Merk" << setw(15) << "Tipe" << setw(8) << "Tahun" << setw(12) << "Status" << endl;
+    cout << left << setw(5) << "ID" << setw(15) << "Merk" << setw(15) << "Tipe" 
+         << setw(8) << "Tahun" << setw(12) << "Status" << endl;
     garis();
+    
     Mobil* temp = head;
     bool ada = false;
     while (temp) {
@@ -82,29 +83,43 @@ void tampilMobil(bool tampilSemua = true, bool status = false) {
     system("pause");
 }
 
-// Fungsi untuk menandai mobil sebagai disewa/dikembalikan
+// Ubah Status Mobil (Disewa/Dikembalikan) dengan Validasi
 void updateStatusMobil() {
     headerMenu();
-    cout << "Tandai Mobil Disewa/Dikembalikan\n";
+    cout << "Pilih Mobil Yang Akan Disewa / Kembalikan Mobil Yang Telah Disewa\n";
     garis();
     tampilMobil();
     cout << "Masukkan ID mobil: ";
-    int id; cin >> id;
+    int id;
+    cin >> id;
+
     Mobil* temp = head;
-    while (temp && temp->id != id) temp = temp->next;
+    while (temp && temp->id != id)
+        temp = temp->next;
+
     if (!temp) {
         cout << "Mobil tidak ditemukan!\n";
     } else {
         cout << "Status saat ini: " << (temp->disewa ? "Disewa" : "Tersedia") << endl;
-        cout << "Ubah status menjadi (1: Disewa, 0: Tersedia): ";
-        int st; cin >> st;
-        temp->disewa = (st == 1);
-        cout << "Status berhasil diubah!\n";
+
+        int st;
+        while (true) {
+            cout << "Ubah status menjadi (1: Disewa, 0: Dikembalikan): ";
+            cin >> st;
+
+            if (st == 0 || st == 1) {
+                temp->disewa = (st == 1);
+                cout << "Status berhasil diubah menjadi: " << (st == 1 ? "Disewa" : "Tersedia") << endl;
+                break;
+            } else {
+                cout << "Input tidak valid. Masukkan hanya angka 1 (Disewa) atau 0 (Dikembalikan).\n";
+            }
+        }
     }
     system("pause");
 }
 
-// Fungsi untuk menghapus mobil dari daftar
+// Hapus Mobil
 void hapusMobil() {
     headerMenu();
     cout << "Hapus Data Mobil\n";
@@ -129,7 +144,7 @@ void hapusMobil() {
     system("pause");
 }
 
-// Fungsi untuk mencari mobil berdasarkan merk
+// Cari Mobil Berdasarkan Merk
 void cariMobil() {
     headerMenu();
     cout << "Cari Mobil Berdasarkan Merk\n";
@@ -140,7 +155,8 @@ void cariMobil() {
     Mobil* temp = head;
     bool ada = false;
     garis();
-    cout << left << setw(5) << "ID" << setw(15) << "Merk" << setw(15) << "Tipe" << setw(8) << "Tahun" << setw(12) << "Status" << endl;
+    cout << left << setw(5) << "ID" << setw(15) << "Merk" << setw(15) << "Tipe" 
+         << setw(8) << "Tahun" << setw(12) << "Status" << endl;
     garis();
     while (temp) {
         if (temp->merk.find(merkCari) != string::npos) {
@@ -158,14 +174,14 @@ void cariMobil() {
     system("pause");
 }
 
+// Main Program
 int main() {
-    system("cls");
- int pilihan;
+    int pilihan;
     do {
         headerMenu();
         cout << "Menu:\n";
         cout << "1. Tambah Data Mobil\n";
-        cout << "2. Pilih Mobil untuk Disewa/Dikembalikan\n";
+        cout << "2. Pilih Mobil Yang Akan Disewa / Kembalikan Mobil Yang Telah Disewa\n";
         cout << "3. Hapus Mobil dari Daftar\n";
         cout << "4. Cari Mobil Berdasarkan Merk\n";
         cout << "5. Tampilkan Semua Mobil\n";
@@ -173,8 +189,9 @@ int main() {
         cout << "7. Tampilkan Mobil Disewa\n";
         cout << "0. Keluar\n";
         garis();
-        cout << "Pilih menu: "; getch();
+        cout << "Pilih menu: ";
         cin >> pilihan;
+
         switch (pilihan) {
             case 1: tambahMobil(); break;
             case 2: updateStatusMobil(); break;
